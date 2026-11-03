@@ -1,191 +1,97 @@
-# Canvas Chat
+# Canvas Coworker
 
-A visual, non-linear chat interface where conversations are nodes on an infinite canvas. Explore topics by branching, merging, and navigating your discussions as a directed acyclic graph (DAG).
+把 AI 对话中的有用片段，整理成同事能快速理解、继续讨论的可视化工作画布。
 
-![Canvas Chat in action](docs/assets/canvas-chat-screenshot.webp)
+工作中，一个值得分享的想法往往藏在很长的 AI 对话里。交接时，同事需要知道这段内容解决什么问题、与你的项目有什么关系，以及接下来还需要讨论什么。Canvas Coworker 用摘录、笔记和连接关系，把这些信息放到同一张画布上。
 
-📚 **[Documentation](https://ericmjl.github.io/canvas-chat/)**
+基于 [Canvas Chat](https://github.com/ericmjl/canvas-chat) 构建，适合把个人与 AI 的探索过程整理成需求讨论、技术方案交流和工作交接的材料。
 
-## Try It Online
+## 适用场景
 
-No installation required! Try Canvas Chat at
-**[ericmjl--canvas-chat-fastapi-app.modal.run](https://ericmjl--canvas-chat-fastapi-app.modal.run/)**.
+| 场景 | 在画布上组织什么 |
+| --- | --- |
+| 需求与功能讨论 | 有启发的回答、适用的需求、自己的判断、待确认的问题 |
+| 技术方案交流 | 问题背景、实现思路、关键代码、方案之间的取舍 |
+| 内容与运营协作 | 选题方向、参考内容、使用理由、需要补充的信息 |
+| 工作进展交接 | 已完成的工作、相关说明、下一步任务与遗留问题 |
 
-Bring your own API keys (configured in Settings).
+例如，你与 AI 讨论新用户引导时发现一个可借鉴的方案，可以提取关键段落，在旁边补充“适用于首次创建任务的流程，建议与设计同事讨论”，再把相关问题和其他方案连接起来。
 
-## Quick Start
+## 从对话到交接画布
 
-Run Canvas Chat instantly with no installation:
+**收集片段 → 补充用途说明 → 组织关系 → 继续讨论 → 保存与交接**
 
-```bash
-uvx canvas-chat launch
+在节点内划选有价值的文字，创建摘录节点；用笔记写下这段内容为什么值得分享。把背景、摘录、个人想法和待讨论问题排列到一起，让同事按清晰的顺序阅读。
+
+用途说明可以写在独立的笔记节点中，让原文和你的判断各自保留。需要继续探索时，选择一个或多个相关节点，再向 AI 提问。
+
+## 核心能力
+
+| 能力 | 如何帮助沟通 |
+| --- | --- |
+| 划选与摘录 | 从长回答中提取关键段落，保留它与来源节点的关系 |
+| Markdown 笔记 | 补充适用场景、个人判断、沟通对象和下一步问题 |
+| 无限画布 | 将相关内容摆在一起，拖动节点、缩放查看全局 |
+| 分支与多节点上下文 | 围绕同一段材料展开不同讨论，或结合多段材料继续提问 |
+| 布局整理 | 利用节点关系整理层级，配合手动调整形成阅读顺序 |
+| 本地保存与文件导出 | 保存工作画布，通过 `.canvaschat` 文件交接，供对方导入继续整理 |
+
+## 一个简单的使用流程
+
+1. 在画布中与 AI 讨论问题，或使用 `/note` 添加已有的文字材料。
+2. 在节点内划选关键文字，通过 Branch 创建摘录节点。
+3. 选中相关节点，用 `/note` 添加一条用途说明。
+4. 将背景、关键摘录、说明和待讨论问题整理成一组，按需要应用布局或手动移动。
+5. 截图用于快速沟通，或导出 `.canvaschat` 文件给同事继续查看和编辑。
+
+用途说明示例：
+
+```text
+/note 用途：新用户引导改版
+这段方案可以用于首次创建任务的流程。
+我的判断：先完成一次操作，再展示复杂设置。
+待讨论：是否与当前开发方案冲突？
 ```
 
-Your browser will open automatically to the local server.
+可以围绕一个主题建立一张画布，使用“背景、参考片段、我的判断、待讨论问题”这样的笔记标题，帮助接收者快速理解上下文。
 
-## Features
+## 本地运行
 
-- **Infinite Canvas**: Pan, zoom, and navigate your conversations visually
-- **Branching Conversations**: Reply to any message to create a new branch
-- **Highlight & Branch**: Select text within any node to create a highlight excerpt node
-- **Multi-Select & Merge**: Select multiple nodes to combine context
-- **Context Visualization**: See which messages are included in your context
-- **Auto-Layout**: Automatically arrange nodes in a clean left-to-right hierarchy
-- **Matrix Evaluation**: Use `/matrix <context>` to create cross-product evaluation tables
-- **LLM Committee**: Use `/committee <question>` to consult multiple LLMs and synthesize answers
-- **Web Research**: Use `/research <topic>` to generate research reports via Exa
-- **Web Search**: Use `/search <query>` to search the web via Exa
-- **Image Analysis**: Upload, paste, or drag-and-drop images for multimodal AI analysis
-- **Markdown & Math Rendering**: Full markdown support with LaTeX math rendering (KaTeX) for inline `\(...\)` and display `\[...\]` math
-- **Multiple LLM Providers**: Support for OpenAI, Anthropic, Google, Groq, GitHub Models, and local models via Ollama
-- **Plugin System**: Extend Canvas Chat with custom node types via JavaScript plugins
-- **Local-First**: All data stored in your browser (IndexedDB)
-- **Export/Import**: Save sessions as `.canvaschat` files
-
-## Configuration
-
-Click the ⚙️ Settings button to add your API keys:
-
-- **OpenAI**: Get from [platform.openai.com](https://platform.openai.com/api-keys)
-- **Anthropic**: Get from [console.anthropic.com](https://console.anthropic.com/)
-- **Google AI**: Get from [aistudio.google.com](https://aistudio.google.com/)
-- **Groq**: Get from [console.groq.com](https://console.groq.com/)
-- **GitHub Models**: Get from [github.com/settings/tokens](https://github.com/settings/tokens) (requires beta access)
-- **Exa** (for search/research): Get from [exa.ai](https://exa.ai/)
-
-Keys are stored locally in your browser's localStorage.
-
-### Admin mode (enterprise)
-
-For enterprise deployments where administrators control API keys server-side:
+需要 Python 3.11+，推荐使用 [Pixi](https://pixi.sh) 管理开发环境。
 
 ```bash
-uvx canvas-chat launch --admin-mode --config config.yaml
-```
-
-This reads model configuration from `config.yaml` and API keys from environment variables. Users don't need to configure anything - models are pre-configured, credentials are injected server-side, and the settings UI is hidden.
-
-For development or teams that want pre-populated models but allow individual API keys:
-
-```bash
-uvx canvas-chat launch --config config.yaml
-```
-
-This loads models and plugins from config but users provide their own API keys via the UI.
-
-See [Admin Mode Setup](docs/how-to/admin-mode.md) for details.
-
-### Plugin system (extensibility)
-
-Canvas Chat supports custom node types via a plugin system. Plugins are JavaScript modules that register new node types with custom rendering and behavior.
-
-```yaml
-# config.yaml
-plugins:
-    - path: ./plugins/my-custom-node.js
-```
-
-```bash
-# Plugins work with or without admin mode
-uvx canvas-chat launch --config config.yaml
-# OR
-uvx canvas-chat launch --admin-mode --config config.yaml
-```
-
-Plugins can define:
-
-- Custom node rendering (HTML/CSS)
-- Node-specific actions (buttons, interactions)
-- Custom data models and validation
-- Integration with external APIs
-
-See [Plugin Development Guide](docs/how-to/create-custom-node-plugins.md) for details.
-
-## Usage
-
-1. **Start chatting**: Type a message and press Enter
-2. **Reply to a node**: Click the ↩️ Reply button or click a node then type
-3. **Branch from text**: Select text within a node, then click 🌿 Branch to create a highlight node
-4. **Multi-select**: Cmd/Ctrl+Click multiple nodes to respond to all at once
-5. **Auto-layout**: Click 🔀 to automatically arrange all nodes
-6. **Search the web**: Type `/search <query>` to search via Exa
-7. **Research a topic**: Type `/research <topic>` to generate a research report
-8. **Consult LLM committee**: Type `/committee <question>` to get opinions from multiple LLMs
-9. **Add images**: Upload, paste (Ctrl/Cmd+V), or drag-and-drop images for AI analysis
-10. **Create a matrix**: Select one or more context nodes, type `/matrix <context>` to create an evaluation table
-11. **Navigate**: Drag the handle (⋮⋮) to move nodes, scroll to zoom, double-click canvas to fit content
-12. **Export**: Click 💾 to save your session as a `.canvaschat` file
-
-## Development
-
-For contributors or local development:
-
-### Prerequisites
-
-- Python 3.11+
-- [Pixi](https://pixi.sh) (recommended) or uv
-
-### Setup
-
-```bash
-git clone https://github.com/ericmjl/canvas-chat.git
-cd canvas-chat
+git clone https://github.com/Jinkeen/Canvas-Coworker.git
+cd Canvas-Coworker
 pixi install
-```
-
-### Running
-
-```bash
 pixi run dev
 ```
 
-Open your browser to the URL shown (usually `http://127.0.0.1:7865`).
+在浏览器中打开终端显示的本地地址，通常为 `http://127.0.0.1:7865`。推荐使用 Chrome 或 Edge。
 
-### Testing plugin system
+### AI 与密钥
 
-To test the plugin system with the example poll node:
+使用 AI 对话、总结或进一步分析时，需要在 Settings 中配置所选模型服务的可用 API key，也可以沿用上游支持的本地模型接入方式。网页搜索等外部服务有各自的配置要求。
 
-```bash
-# 1. Set an API key (for testing LLM features)
-export ANTHROPIC_API_KEY=sk-ant-...
+手动创建笔记、补充用途说明和整理画布不需要模型生成。模型调用与个人笔记共同服务于材料整理，接收者可以先阅读原文和说明，再决定是否继续提问。
 
-# 2. Start dev server with example config (plugins work without admin mode)
-pixi run python -m canvas_chat launch --config config.example.yaml --port 7865
+会话数据保存在浏览器本地存储中，API key 按上游方式保存在浏览器 localStorage。导出画布文件可用于备份与交接；调用外部模型时，相应上下文会发送到所选服务。
 
-# 3. Open browser to http://127.0.0.1:7865
+## 技术与开发资料
 
-# 4. In browser console, create a poll node:
-app.createAndAddNode('poll', '', {
-  data: {
-    question: 'What is your favorite color?',
-    options: ['Red', 'Blue', 'Green', 'Yellow']
-  }
-})
+项目沿用 Canvas Chat 的 Python / FastAPI 后端、JavaScript / CSS 前端、节点与插件机制，以及浏览器本地存储。
 
-# 5. The poll node should render with interactive voting buttons
-```
+| 资料 | 内容 |
+| --- | --- |
+| [划选与分支](docs/how-to/highlight-and-branch.md) | 从节点内的文字继续整理与探索 |
+| [节点插件开发](docs/how-to/create-custom-node-plugins.md) | 扩展节点内容、展示和交互 |
+| [功能插件开发](docs/how-to/create-feature-plugins.md) | 扩展工作流程与操作 |
+| [集中配置](docs/how-to/admin-mode.md) | 模型配置与服务端密钥管理 |
+| [上游文档](https://ericmjl.github.io/canvas-chat/) | Canvas Chat 的其他能力与使用说明 |
 
-This validates that:
+## 来源与许可
 
-- ✅ Config loading works (plugins section parsed correctly)
-- ✅ Plugin files are served via `/api/plugins/*` endpoint
-- ✅ Plugin script tags are injected into HTML
-- ✅ Custom node types register successfully
-- ✅ Custom rendering and interactions work
+Canvas Coworker 基于 [ericmjl/canvas-chat](https://github.com/ericmjl/canvas-chat)，感谢原作者及贡献者提供的画布、对话和插件基础。
 
-See [Plugin Development Guide](docs/how-to/create-custom-node-plugins.md) for creating your own plugins.
+本仓库围绕 AI 辅助工作中的材料整理与同事交接场景组织项目说明。原项目名称、作者归属和上游实现来源保留。
 
-## Tech Stack
-
-- **Backend**: FastAPI
-- **Frontend**: HTMX + vanilla JavaScript + CSS
-- **LLM**: LiteLLM (multi-provider support)
-- **Storage**: IndexedDB (browser-local)
-
-## Browser compatibility
-
-Canvas Chat works best on **Chromium-based browsers** (Chrome, Edge, Arc, Brave, etc.). Firefox and Safari have rendering issues with the SVG canvas that prevent full functionality.
-
-## License
-
-MIT
+沿用上游声明的 MIT 许可。使用和分发上游代码时，请保留适用的版权与许可声明。
