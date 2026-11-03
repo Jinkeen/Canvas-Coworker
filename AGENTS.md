@@ -1,3 +1,7 @@
+# Canvas Coworker independent MVP
+
+The current application is under `coworker/`, independently implemented with Node.js and browser APIs. Read `coworker/AGENTS.md` for its module map and commands. Use `npm --prefix coworker start`; use `npm ci`, `npm test` and `npm run check` inside that directory. The Python/Pixi instructions below apply only to the preserved historical Canvas Chat code. API keys must stay in page memory; exports never include keys. Changes are on `codex/coworker-mvp`; do not commit or push without user instruction.
+
 # Agents
 
 Instructions for AI coding agents working on this project.
